@@ -25,7 +25,7 @@ jobs:
           mkdir extracted
           unzip project.zip -d extracted
           echo "Project files:"
-          find extracted -maxdepth 4 -type f | head -100
+          find extracted -maxdepth 5 -type f | head -150
 
       - name: Find Android project
         run: |
@@ -47,11 +47,12 @@ jobs:
         run: |
           curl -L https://services.gradle.org/distributions/gradle-8.7-bin.zip -o gradle.zip
           unzip -q gradle.zip
+          chmod +x gradle-8.7/bin/gradle
 
       - name: Build debug APK
         run: |
           cd "$PROJECT_DIR"
-          ../../gradle-8.7/bin/gradle assembleDebug --no-daemon
+          "$GITHUB_WORKSPACE/gradle-8.7/bin/gradle" assembleDebug --no-daemon
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
